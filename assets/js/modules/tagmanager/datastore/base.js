@@ -37,6 +37,16 @@ let baseModuleStore = Modules.createModuleStore( 'tagmanager', {
 	],
 	submitChanges,
 	validateCanSubmitChanges,
+	validateIsSetupBlocked: ( select ) => {
+		const hasExistingTag = select( MODULES_TAGMANAGER ).hasExistingTag();
+		const hasExistingTagPermission = select(
+			MODULES_TAGMANAGER
+		).hasExistingTagPermission();
+
+		if ( hasExistingTag && hasExistingTagPermission === false ) {
+			throw 'SETUP_BLOCKED!';
+		}
+	},
 } );
 
 // Rename generated pieces to adhere to our convention.
