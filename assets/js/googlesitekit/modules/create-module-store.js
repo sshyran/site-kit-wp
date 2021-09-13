@@ -34,6 +34,7 @@ import {
 import { createErrorStore } from '../data/create-error-store';
 import { createInfoStore } from './create-info-store';
 import { createSubmitChangesStore } from './create-submit-changes-store';
+import { createValidationSelector } from '../data/utils';
 
 /**
  * Creates a base store object for a Site Kit module.
@@ -56,6 +57,7 @@ import { createSubmitChangesStore } from './create-submit-changes-store';
  * @param {boolean}  [args.requiresSetup]            Optional. Store flag for requires setup. Default is 'true'.
  * @param {Function} [args.submitChanges]            Optional. Submit settings changes handler.
  * @param {Function} [args.validateCanSubmitChanges] Optional. A function to validate whether module settings can be submitted.
+ * @param {Function} [args.validateIsSetupBlocked]   Optional. A function to validate whether module setup is terminally blocked from continuing.
  * @return {Object} The base module store object, with additional `STORE_NAME` and
  *                  `initialState` properties.
  */
@@ -68,6 +70,7 @@ export const createModuleStore = (
 		requiresSetup = true,
 		submitChanges = undefined,
 		validateCanSubmitChanges = undefined,
+		validateIsSetupBlocked = undefined,
 	} = {}
 ) => {
 	invariant( slug, 'slug is required.' );
@@ -87,6 +90,20 @@ export const createModuleStore = (
 		adminPage,
 		requiresSetup,
 	} );
+
+	const setupBlockedStore = {};
+	if ( requiresSetup && validateIsSetupBlocked ) {
+		const {
+			safeSelector: isSetupBlocked,
+			dangerousSelector: __dangerousIsSetupBlocked,
+		} = createValidationSelector( validateIsSetupBlocked, {
+			negate: true,
+		} );
+		setupBlockedStore.selectors = {
+			isSetupBlocked,
+			__dangerousIsSetupBlocked,
+		};
+	}
 
 	let combinedStore = {};
 	if ( 'undefined' !== typeof settingSlugs ) {
@@ -116,13 +133,15 @@ export const createModuleStore = (
 			settingsStore,
 			submitChangesStore,
 			infoStore,
-			createErrorStore()
+			createErrorStore(),
+			setupBlockedStore
 		);
 	} else {
 		combinedStore = Data.combineStores(
 			Data.commonStore,
 			notificationsStore,
 			infoStore,
+			setupBlockedStore,
 			createErrorStore(),
 			createSubmitChangesStore( {
 				submitChanges,
