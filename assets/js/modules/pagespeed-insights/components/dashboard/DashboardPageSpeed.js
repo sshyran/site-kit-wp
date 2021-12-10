@@ -62,6 +62,7 @@ import {
 	UI_STRATEGY,
 	UI_DATA_SOURCE,
 } from '../../datastore/constants';
+import Spinner from '../../../../components/Spinner';
 
 const { useSelect, useDispatch } = Data;
 
@@ -137,6 +138,7 @@ export default function DashboardPageSpeed() {
 		threshold: 0.25,
 	} );
 	const inView = !! intersectionEntry?.intersectionRatio;
+	const isFetching = isFetchingMobile || isFetchingDesktop;
 
 	useEffect( () => {
 		if ( inView && ! hasBeenInView ) {
@@ -218,12 +220,12 @@ export default function DashboardPageSpeed() {
 		}
 	}, [ reportMobile, reportDesktop, setDataSrcField ] );
 
-	if (
-		! referenceURL ||
-		isFetchingMobile ||
-		isFetchingDesktop ||
-		! dataSrc
-	) {
+	const reportData =
+		strategy === STRATEGY_MOBILE ? reportMobile : reportDesktop;
+	const reportError =
+		strategy === STRATEGY_MOBILE ? errorMobile : errorDesktop;
+
+	if ( ! referenceURL || ( isFetching && ! reportData ) || ! dataSrc ) {
 		return (
 			<div
 				id="googlesitekit-pagespeed-header" // Used by jump link.
@@ -243,11 +245,6 @@ export default function DashboardPageSpeed() {
 			</div>
 		);
 	}
-
-	const reportData =
-		strategy === STRATEGY_MOBILE ? reportMobile : reportDesktop;
-	const reportError =
-		strategy === STRATEGY_MOBILE ? errorMobile : errorDesktop;
 
 	return (
 		<Fragment>
@@ -295,7 +292,17 @@ export default function DashboardPageSpeed() {
 				</div>
 			</header>
 
-			<section>
+			{ isFetching && (
+				<div style={ { marginTop: -4 } }>
+					<ProgressBar compress />
+				</div>
+			) }
+
+			<section
+				className={ classnames( {
+					'googlesitekit-pagespeed-widget--refreshing': isFetching,
+				} ) }
+			>
 				{ dataSrc === DATA_SRC_LAB && (
 					<LabReportMetrics
 						data={ reportData }
@@ -308,14 +315,13 @@ export default function DashboardPageSpeed() {
 						error={ reportError }
 					/>
 				) }
+				{ ! reportError && (
+					<Recommendations
+						referenceURL={ referenceURL }
+						strategy={ strategy }
+					/>
+				) }
 			</section>
-
-			{ ! reportError && (
-				<Recommendations
-					referenceURL={ referenceURL }
-					strategy={ strategy }
-				/>
-			) }
 
 			<div
 				className={ classnames(
@@ -329,6 +335,7 @@ export default function DashboardPageSpeed() {
 				{ dataSrc === DATA_SRC_LAB && (
 					<Link onClick={ updateReport }>
 						{ __( 'Run test again', 'google-site-kit' ) }
+						<Spinner isSaving={ isFetching } />
 					</Link>
 				) }
 				<ReportDetailsLink />
