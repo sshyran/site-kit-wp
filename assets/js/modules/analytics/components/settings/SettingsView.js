@@ -20,7 +20,11 @@
  * WordPress dependencies
  */
 import { __, _x } from '@wordpress/i18n';
-import { createInterpolateElement, Fragment } from '@wordpress/element';
+import {
+	createInterpolateElement,
+	Fragment,
+	useEffect,
+} from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -39,7 +43,8 @@ import StoreErrorNotices from '../../../../components/StoreErrorNotices';
 import Link from '../../../../components/Link';
 import VisuallyHidden from '../../../../components/VisuallyHidden';
 import { escapeURI } from '../../../../util/escape-uri';
-const { useSelect } = Data;
+import { CORE_LOCATION } from '../../../../googlesitekit/datastore/location/constants';
+const { useSelect, useDispatch } = Data;
 
 export default function SettingsView() {
 	const ga4PropertyID = useSelect( ( select ) =>
@@ -102,6 +107,19 @@ export default function SettingsView() {
 			path: escapeURI`/a${ accountID }p${ ga4PropertyID }/admin/streams/table/${ webDataStreamID }`,
 		} )
 	);
+
+	const isGA4FreshlyConnected = useSelect( ( select ) =>
+		select( MODULES_ANALYTICS_4 ).isFreshlyConnected()
+	);
+	const { reload } = useDispatch( CORE_LOCATION );
+	useEffect( () => {
+		// If GA4 is freshly connected, reload the page.
+		// This is a special case, as all other modules are connected
+		// via their setup screens.
+		if ( isGA4FreshlyConnected ) {
+			reload();
+		}
+	}, [ isGA4FreshlyConnected, reload ] );
 
 	return (
 		<div className="googlesitekit-setup-module googlesitekit-setup-module--analytics">
