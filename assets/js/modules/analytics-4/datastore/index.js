@@ -24,6 +24,7 @@ import { MODULES_ANALYTICS_4 } from './constants';
 import accounts from './accounts';
 import api from './api';
 import baseModuleStore from './base';
+import connection from './connection';
 import properties from './properties';
 import tags from './tags';
 import webdatastreams from './webdatastreams';
@@ -33,6 +34,7 @@ const store = Data.combineStores(
 	accounts,
 	api,
 	baseModuleStore,
+	connection,
 	createSnapshotStore( MODULES_ANALYTICS_4 ),
 	properties,
 	tags,
