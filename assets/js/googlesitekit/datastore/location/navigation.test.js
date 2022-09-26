@@ -26,9 +26,11 @@ import { CORE_LOCATION } from './constants';
 describe( 'core/location', () => {
 	mockLocation();
 	let registry;
+	let store;
 
 	beforeEach( () => {
 		registry = createTestRegistry();
+		store = registry.stores[ CORE_LOCATION ].store;
 	} );
 
 	describe( 'actions', () => {
@@ -46,6 +48,25 @@ describe( 'core/location', () => {
 
 				expect( global.location.assign ).toHaveBeenCalled();
 				expect( global.location.assign ).toHaveBeenCalledWith( url );
+			} );
+		} );
+
+		describe( 'reload', () => {
+			it( 'reloads the page via location.reload', async () => {
+				await registry.dispatch( CORE_LOCATION ).reload();
+
+				expect( global.location.reload ).toHaveBeenCalledTimes( 1 );
+			} );
+
+			it( 'sets the navigatingTo state to the current URL', async () => {
+				global.location.href = 'https://example.com/foo/';
+				expect( store.getState().navigatingTo ).toBeUndefined();
+
+				await registry.dispatch( CORE_LOCATION ).reload();
+
+				expect( store.getState().navigatingTo ).toBe(
+					'https://example.com/foo/'
+				);
 			} );
 		} );
 	} );

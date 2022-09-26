@@ -27,6 +27,7 @@ import invariant from 'invariant';
 import { createValidatedAction } from '../../data/utils';
 
 const DO_NAVIGATE_TO = 'DO_NAVIGATE_TO';
+const DO_RELOAD = 'DO_RELOAD';
 const SET_NAVIGATING_TO = 'SET_NAVIGATING_TO';
 
 export const initialState = {
@@ -66,11 +67,27 @@ export const actions = {
 			};
 		}
 	),
+
+	*reload() {
+		yield {
+			type: SET_NAVIGATING_TO,
+			payload: {
+				url: global.location.href,
+			},
+		};
+
+		return yield {
+			type: DO_RELOAD,
+		};
+	},
 };
 
 export const controls = {
 	[ DO_NAVIGATE_TO ]: ( { payload } ) => {
 		global.location.assign( payload.url );
+	},
+	[ DO_RELOAD ]: () => {
+		global.location.reload();
 	},
 };
 

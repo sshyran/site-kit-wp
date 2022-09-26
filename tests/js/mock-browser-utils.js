@@ -23,7 +23,10 @@
  */
 export function mockLocation() {
 	let oldLocation;
-	const locationAssignMock = jest.fn();
+	const locationAssignMock = jest.fn(
+		( url ) => ( global.location.href = url )
+	);
+	const locationReloadMock = jest.fn();
 
 	beforeAll( () => {
 		oldLocation = global.location;
@@ -35,6 +38,15 @@ export function mockLocation() {
 					configurable: true,
 					value: locationAssignMock,
 				},
+				href: {
+					configurable: true,
+					value: 'https://example.com',
+					writable: true,
+				},
+				reload: {
+					configurable: true,
+					value: locationReloadMock,
+				},
 			}
 		);
 	} );
@@ -45,5 +57,6 @@ export function mockLocation() {
 
 	beforeEach( () => {
 		locationAssignMock.mockReset();
+		locationReloadMock.mockReset();
 	} );
 }
