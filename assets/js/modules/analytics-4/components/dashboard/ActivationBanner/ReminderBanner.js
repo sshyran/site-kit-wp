@@ -20,7 +20,6 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -33,9 +32,7 @@ import {
 	GA4_ACTIVATION_BANNER_ID,
 } from '../../../constants';
 import BannerNotification from '../../../../../components/notifications/BannerNotification';
-import { useTooltipState } from '../../../../../components/AdminMenuTooltip/useTooltipState';
 import { useShowTooltip } from '../../../../../components/AdminMenuTooltip/useShowTooltip';
-import { AdminMenuTooltip } from '../../../../../components/AdminMenuTooltip/AdminMenuTooltip';
 import { getBannerDismissalExpiryTime } from '../../../utils/banner-dismissal-expiry';
 import Link from '../../../../../components/Link';
 import { stringToDate } from '../../../../../util';
@@ -64,34 +61,9 @@ export default function ReminderBanner( { onSubmitSuccess, children } ) {
 		return select( CORE_SITE ).getDocumentationLinkURL( 'ga4' );
 	} );
 
-	const { isTooltipVisible } = useTooltipState(
-		ACTIVATION_ACKNOWLEDGEMENT_TOOLTIP_STATE_KEY
-	);
-
 	const showTooltip = useShowTooltip(
 		ACTIVATION_ACKNOWLEDGEMENT_TOOLTIP_STATE_KEY
 	);
-
-	if ( isTooltipVisible ) {
-		return (
-			<Fragment>
-				<AdminMenuTooltip
-					title={ __(
-						'You can connect Google Analytics 4 later here',
-						'google-site-kit'
-					) }
-					content={ __(
-						'You can configure the Google Analytics 4 property inside the Site Kit Settings later.',
-						'google-site-kit'
-					) }
-					dismissLabel={ __( 'Got it', 'google-site-kit' ) }
-					tooltipStateKey={
-						ACTIVATION_ACKNOWLEDGEMENT_TOOLTIP_STATE_KEY
-					}
-				/>
-			</Fragment>
-		);
-	}
 
 	if ( isLoadingAnalyticsAccess ) {
 		// Wrap in the googlesitekit-publisher-win class to ensure the ProgressBar is treated in the
