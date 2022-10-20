@@ -28,6 +28,7 @@ import Data from 'googlesitekit-data';
 import { CORE_SITE } from '../../../../../googlesitekit/datastore/site/constants';
 import BannerNotification from '../../../../../components/notifications/BannerNotification';
 import SuccessGreenSVG from '../../../../../../svg/graphics/success-green.svg';
+import { GA4_ACTIVATION_BANNER_ID } from '../../../constants';
 
 const { useSelect } = Data;
 
@@ -37,7 +38,7 @@ export default function SuccessBanner() {
 	);
 	return (
 		<BannerNotification
-			id="ga4-activation-banner"
+			id={ GA4_ACTIVATION_BANNER_ID }
 			title={ __(
 				'You successfully set up your Google Analytics 4 property',
 				'google-site-kit'

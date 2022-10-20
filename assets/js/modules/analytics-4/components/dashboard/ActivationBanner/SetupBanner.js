@@ -48,6 +48,7 @@ import { CORE_USER } from '../../../../../googlesitekit/datastore/user/constants
 import {
 	ACTIVATION_ACKNOWLEDGEMENT_TOOLTIP_STATE_KEY,
 	GA4_ACTIVATION_BANNER_STATE_KEY,
+	GA4_ACTIVATION_BANNER_ID,
 } from '../../../constants';
 import { useTooltipState } from '../../../../../components/AdminMenuTooltip/useTooltipState';
 import { useShowTooltip } from '../../../../../components/AdminMenuTooltip/useShowTooltip';
@@ -362,7 +363,7 @@ export default function SetupBanner( { onSubmitSuccess } ) {
 
 	return (
 		<BannerNotification
-			id="ga4-activation-banner"
+			id={ GA4_ACTIVATION_BANNER_ID }
 			className="googlesitekit-ga4-setup-banner"
 			title={ title }
 			ctaComponent={

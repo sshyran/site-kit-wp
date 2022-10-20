@@ -28,7 +28,10 @@ import { Fragment } from '@wordpress/element';
 import Data from 'googlesitekit-data';
 import { CORE_USER } from '../../../../../googlesitekit/datastore/user/constants';
 import { CORE_SITE } from '../../../../../googlesitekit/datastore/site/constants';
-import { ACTIVATION_ACKNOWLEDGEMENT_TOOLTIP_STATE_KEY } from '../../../constants';
+import {
+	ACTIVATION_ACKNOWLEDGEMENT_TOOLTIP_STATE_KEY,
+	GA4_ACTIVATION_BANNER_ID,
+} from '../../../constants';
 import BannerNotification from '../../../../../components/notifications/BannerNotification';
 import { useTooltipState } from '../../../../../components/AdminMenuTooltip/useTooltipState';
 import { useShowTooltip } from '../../../../../components/AdminMenuTooltip/useShowTooltip';
@@ -203,7 +206,7 @@ export default function ReminderBanner( { onSubmitSuccess, children } ) {
 
 	return (
 		<BannerNotification
-			id="ga4-activation-banner"
+			id={ GA4_ACTIVATION_BANNER_ID }
 			className="googlesitekit-ga4-reminder-banner"
 			title={ title }
 			description={ description }

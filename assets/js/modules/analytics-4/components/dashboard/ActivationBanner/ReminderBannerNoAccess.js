@@ -33,6 +33,7 @@ import { createInterpolateElement } from '@wordpress/element';
 import Data from 'googlesitekit-data';
 import BannerNotification from '../../../../../components/notifications/BannerNotification';
 import { CORE_MODULES } from '../../../../../googlesitekit/modules/datastore/constants';
+import { GA4_ACTIVATION_BANNER_ID } from '../../../constants';
 
 const { useSelect } = Data;
 
@@ -69,7 +70,7 @@ export default function ReminderBannerNoAccess( {
 
 	return (
 		<BannerNotification
-			id="ga4-activation-banner"
+			id={ GA4_ACTIVATION_BANNER_ID }
 			className="googlesitekit-ga4-reminder-banner"
 			title={ title }
 			description={ description }
