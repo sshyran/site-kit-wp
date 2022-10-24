@@ -56,6 +56,39 @@
 			margin: 0 0 10px;
 		}
 
+		.googlesitekit-setup-module__header {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+
+			.googlesitekit-setup-module__logo,
+			.googlesitekit-setup-module__title {
+				margin-bottom: 0;
+			}
+		}
+
+		.googlesitekit-setup-module__title-container {
+			align-items: center;
+			display: flex;
+			flex-direction: row-reverse;
+			flex-wrap: wrap;
+
+			@media (min-width: $bp-tablet) {
+				flex-direction: row;
+			}
+		}
+
+		.googlesitekit-setup-module__badges {
+			align-items: center;
+			display: flex;
+			flex-direction: row-reverse;
+			flex-wrap: wrap;
+
+			@media (min-width: $bp-tablet) {
+				flex-direction: row;
+			}
+		}
+
 		.googlesitekit-setup-module__text--no-margin {
 			margin: 0;
 		}
@@ -241,23 +274,6 @@
 			@media (min-width: $bp-desktop) {
 				margin: ($grid-gap-desktop * 1.5) 0 0 0;
 			}
-		}
-
-		.googlesitekit-setup-module__header {
-			align-items: center;
-			display: flex;
-			flex-wrap: wrap;
-			grid-gap: 10px 12px;
-
-			.googlesitekit-setup-module__logo,
-			.googlesitekit-setup-module__title {
-				margin-bottom: 0;
-			}
-		}
-
-		.googlesitekit-setup-module__heading {
-			align-items: center;
-			display: flex;
 		}
 	}
 }

@@ -43,28 +43,36 @@ export default function SetupPublicationScreen( props ) {
 	return (
 		<Grid collapsed>
 			<Row>
-				<Cell
-					smSize={ 4 }
-					mdSize={ 8 }
-					lgSize={ 6 }
-					lgOrder={ 2 }
-					className="googlesitekit-setup__icon"
-				>
-					<Suspense fallback={ <div /> }>
-						<ThankWithGoogleSetup width={ 391 } height={ 222 } />
-					</Suspense>
-				</Cell>
-				<Cell smSize={ 4 } mdSize={ 8 } lgSize={ 6 } lgOrder={ 1 }>
+				<Cell>
 					<SetupHeader />
+				</Cell>
+				<Cell>
+					<Row>
+						<Cell
+							mdSize={ 6 }
+							lgSize={ 6 }
+							className="googlesitekit-setup__icon"
+							mdOrder={ 2 }
+							lgOrder={ 2 }
+						>
+							<Suspense fallback={ <div /> }>
+								<ThankWithGoogleSetup
+									width={ 391 }
+									height={ 222 }
+								/>
+							</Suspense>
+						</Cell>
+						<Cell mdSize={ 6 } lgSize={ 6 }>
+							<div className="googlesitekit-setup-module__publication-screen">
+								<h3 className="googlesitekit-heading-3 googlesitekit-setup-module__title">
+									{ title }
+								</h3>
+								<p>{ description }</p>
+							</div>
 
-					<div className="googlesitekit-setup-module__publication-screen">
-						<h3 className="googlesitekit-heading-3 googlesitekit-setup-module__title">
-							{ title }
-						</h3>
-						<p>{ description }</p>
-					</div>
-
-					{ children }
+							{ children }
+						</Cell>
+					</Row>
 				</Cell>
 			</Row>
 		</Grid>

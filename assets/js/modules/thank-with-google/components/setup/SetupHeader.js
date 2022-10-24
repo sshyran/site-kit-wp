@@ -28,11 +28,10 @@ import Badge from '../../../../components/Badge';
 export default function SetupHeader() {
 	return (
 		<div className="googlesitekit-setup-module__header">
-			<div className="googlesitekit-setup-module__heading">
-				<div className="googlesitekit-setup-module__logo">
-					<ThankWithGoogleIconSVG width="33" height="33" />
-				</div>
-
+			<div className="googlesitekit-setup-module__logo">
+				<ThankWithGoogleIconSVG width="33" height="33" />
+			</div>
+			<div className="googlesitekit-setup-module__title-container">
 				<h2 className="googlesitekit-heading-3 googlesitekit-setup-module__title">
 					{ _x(
 						'Thank with Google',
@@ -40,10 +39,11 @@ export default function SetupHeader() {
 						'google-site-kit'
 					) }
 				</h2>
+				<div className="googlesitekit-setup-module__badges">
+					<Badge label={ __( 'Experimental', 'google-site-kit' ) } />
+					<Badge label={ __( 'US Only', 'google-site-kit' ) } />
+				</div>
 			</div>
-
-			<Badge label={ __( 'Experimental', 'google-site-kit' ) } />
-			<Badge label={ __( 'US Only', 'google-site-kit' ) } />
 		</div>
 	);
 }
